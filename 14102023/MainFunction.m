@@ -45,7 +45,7 @@ plot(1:N, psi(:,N-2), 1:N, psi(:,N-1), 1:N, psi(:,N))
 title('Numeric solve')
 
 %% Ex.2 abs(psi)^2 (Analythical solve)
-% In ex.2 we need the same thing we had in ex.1 but for abs(psi)^2
+% In ex.2 we need the same thing we had in ex.1 but for abs(psi)^2.
 
 figure('Name', 'abs(psi)^2 (Analythical solve)')
 hold on
@@ -66,15 +66,16 @@ title('|psi|^2 (Numeric solve)')
 %% Ex.3 E~n An. and Num. solves
 % In ex.3 we need to compare analythical and numeric connection
 % between E and n by plotting. Also we need to try high n values
-% (n = 10, 50, 90)
+% (n = 10, 50, 90).
 
 figure('Name', 'E~n Num. solves (n = 1...5)')
 E = hbar^2 * diag(D) / (h^2 * 2 * m0);
+E = wrev(E);
 hold on
 for n = 1:5
     x = [0 10];
-    y = [E(n); E(n)];
-    text(11, E(n), strcat('n=', num2str(n)))
+    y = [E(n)/E(1); E(n)/E(1)];
+    text(11, E(n)/E(1), strcat('n=', num2str(n)))
     plot(x, y)
     xlim([0 12]);
 end
@@ -86,8 +87,8 @@ figure('Name', 'E~n Num. solves (n = 10, 50, 90)')
 hold on
 for n = [10 50 90]
     x = [0 10];
-    y = [E(n); E(n)];
-    text(11, E(n), strcat('n=', num2str(n)))
+    y = [E(n)/E(1); E(n)/E(1)];
+    text(11, E(n)/E(1), strcat('n=', num2str(n)))
     plot(x, y)
     xlim([0 12]);
 end
@@ -99,6 +100,7 @@ figure('Name', 'E~n An. solves (n = 1...5)')
 hold on
 for n = 1:5
     E = Energy(n, 10, 0.07);
+    E = E/Energy(1, 10, 0.07);
     x = [0 10];
     y = [E E];
     text(11, E, strcat('n=', num2str(n)))
@@ -113,6 +115,7 @@ figure('Name', 'E~n An. solves (n = 10, 50, 90)')
 hold on
 for n = [10 50 90]
     E = Energy(n, 10, 0.07);
+    E = E/Energy(1, 10, 0.07);
     x = [0 10];
     y = [E E];
     text(11, E, strcat('n=', num2str(n)))
@@ -123,9 +126,25 @@ plot([10 10], get(gca, 'Ylim'), 'k');
 title('E~n An. solves (n = 10, 50, 90)')
 hold off
 
+% Another variant. All numeric and analythical energy levels.
+
+figure('Name', 'E~n Num. and An. solves')
+En = hbar^2 * diag(D) / (h^2 * 2 * m0);
+for n = 1:98
+    Ea(n) = Energy(n, 98, 0.07);
+end
+En = En./En(98);
+En = wrev(En);
+Ea = Ea./Ea(1);
+hold on
+plot(1:98, En, 1:98, Ea)
+legend('Numeric', 'Analythical')
+title('E~n Num. and An. solves')
+hold off
+
 %% Ex. 4 An. and Num. solves for n >> 10
 % In ex.4 we need the same thing we had in ex.1 but for
-% n >> 10 (for example, the highest n we had in task)
+% n >> 10 (for example, the highest n we had in task).
 
 figure('Name', 'Analythical solve n >> 10')
 L = 10;
@@ -145,9 +164,11 @@ title('Numeric solve n >> 10')
 % by plotting.
 
 figure('Name', 'En ~ n by numeric solve')
-n = 1:N;
-E = hbar^2 * diag(D) / (h^2 * 2 * m0);
-plot(n, E)
+n = 1:98;
+h = 1;
+t0 = hbar^2 / (2 * 0.07 * m0 * h);
+En = 2 * t0 * (1 - cos(n * pi * h / 98));
+plot(n, En./En(1))
 title('En ~ n by numeric solve')
 
 datetime(clock)
