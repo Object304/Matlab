@@ -84,7 +84,7 @@ while count < 4
     if n_step == 1
         PE = 0.;
         psi = prl + i*pim;    % Write as a complex function
-        PE = PE + sum(psi*psi'*V);
+        PE = PE + sum(psi.*transpose(psi').*V);
         
         psi*psi'                % This checks normalization
         PE = PE*J2eV;           % Potential energy
