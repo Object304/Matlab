@@ -21,10 +21,10 @@ while 1
         [X, cmap] = rgb2ind(image, 256);
         if i == 0
             imwrite(X, cmap, 'myanim.gif', 'gif', 'LoopCount', Inf, ...
-                'DelayTime', 1/24);
+                'DelayTime', 1/25);
         else
             imwrite(X, cmap, 'myanim.gif', 'gif', 'WriteMode', 'append', ...
-                'DelayTime', 1/24);
+                'DelayTime', 1/25);
         end
     end
 end
